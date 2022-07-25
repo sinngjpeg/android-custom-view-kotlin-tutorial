@@ -27,6 +27,7 @@ class ProgressButton @JvmOverloads constructor(
 
     init {
         setLayout(attrs)
+        refreshState()
     }
 
     private fun setLayout(attrs: AttributeSet?) {
@@ -69,6 +70,14 @@ class ProgressButton @JvmOverloads constructor(
             ProgressButtonState.Normal -> binding.textTitle.text = title
             ProgressButtonState.Loading -> binding.textTitle.text = loadingTitle
         }
+    }
+
+    fun setLoading() {
+        state = ProgressButtonState.Loading
+    }
+
+    fun setNormal() {
+        state = ProgressButtonState.Normal
     }
 
     sealed class ProgressButtonState(val isEnabled: Boolean, val progressVisibility: Int) {
