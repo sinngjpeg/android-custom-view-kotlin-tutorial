@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android-custom-view-kotlin-tutorial</string>
+    <string name="login">Login</string>
+    <string name="login_loading_state">PLease wait…</string>
 </resources>
