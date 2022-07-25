@@ -3,6 +3,7 @@ package com.sinngjpeg.android_custom_view_kotlin_tutorial
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.sinngjpeg.android_custom_view_kotlin_tutorial.databinding.ProgressButtonBinding
 
@@ -17,6 +18,12 @@ class ProgressButton @JvmOverloads constructor(
 
     private val binding = ProgressButtonBinding
         .inflate(LayoutInflater.from(context), this, true)
+
+    private var state: ProgressButtonState = ProgressButtonState.Normal
+        set(value) {
+            field = value
+            refreshState()
+        }
 
     init {
         setLayout(attrs)
@@ -45,5 +52,27 @@ class ProgressButton @JvmOverloads constructor(
             }
             attributes.recycle()
         }
+    }
+
+    private fun refreshState() {
+        isEnabled = state.isEnabled
+        isClickable = state.isEnabled
+
+        binding.textTitle.run {
+            isEnabled = state.isEnabled
+            isClickable = state.isEnabled
+        }
+
+        binding.progressButton.visibility = state.progressVisibility
+
+        when (state) {
+            ProgressButtonState.Normal -> binding.textTitle.text = title
+            ProgressButtonState.Loading -> binding.textTitle.text = loadingTitle
+        }
+    }
+
+    sealed class ProgressButtonState(val isEnabled: Boolean, val progressVisibility: Int) {
+        object Normal : ProgressButtonState(true, View.GONE)
+        object Loading : ProgressButtonState(false, View.VISIBLE)
     }
 }
